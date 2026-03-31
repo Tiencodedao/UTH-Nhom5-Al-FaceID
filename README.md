@@ -1,6 +1,6 @@
 # 👤 Face Recognition AI - Group 5 (UTH)
 
-Môn học: **Cơ sở Trí tuệ Nhân tạo (AI)** Trường: **Đại học Giao thông vận tải TP.HCM (UTH)**
+Môn học: **Trí tuệ Nhân tạo (AI)** Trường: **Đại học Giao thông vận tải TP.HCM (UTH)**
 
 ---
 
