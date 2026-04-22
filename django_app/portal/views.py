@@ -107,29 +107,33 @@ def scan_camera(request):
 def schedule_view(request):
     """Trang thời khóa biểu - Chọn buổi học để điểm danh"""
     today = timezone.now().date()
-    current_day = today.weekday()  # 0 = Monday
-    
+    current_day = today.weekday()  # 0 = Monday, khớp với DAY_CHOICES
+
     # Lấy tất cả thời khóa biểu
     schedules = Schedule.objects.filter(is_active=True).select_related('subject', 'classroom')
-    
+
     # Tạo dữ liệu thời khóa biểu theo ngày
     schedule_by_day = {}
+    current_day_name = ''
     for day_num, day_name in Schedule.DAY_CHOICES:
         schedule_by_day[day_num] = {
             'name': day_name,
             'schedules': schedules.filter(day_of_week=day_num)
         }
-    
+        if day_num == current_day:
+            current_day_name = day_name
+
     # Lấy các buổi điểm danh hôm nay
     today_sessions = AttendanceSession.objects.filter(date=today).select_related('schedule__subject', 'schedule__classroom')
-    
+
     # Lấy các buổi đang hoạt động
     active_sessions = AttendanceSession.objects.filter(status='active').select_related('schedule__subject', 'schedule__classroom')
-    
+
     context = {
         'schedule_by_day': schedule_by_day,
         'today': today,
         'current_day': current_day,
+        'current_day_name': current_day_name,   # Tên thứ hiện tại (vd: "Thứ Ba")
         'today_sessions': today_sessions,
         'active_sessions': active_sessions,
         'subjects': Subject.objects.all(),
